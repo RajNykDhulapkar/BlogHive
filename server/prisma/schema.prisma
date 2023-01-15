@@ -1,0 +1,110 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int     @id @default(autoincrement())
+  email     String  @unique
+  name      String?
+  password  String?
+  is_active Boolean @default(false)
+
+  profile Profile?
+
+  posts   Post[]
+  Comment Comment[]
+
+  @@map("bh_user")
+}
+
+model Profile {
+  id           Int     @id @default(autoincrement())
+  bio          String
+  user         User    @relation(fields: [userId], references: [id])
+  userId       Int     @unique
+  profileImage String?
+  bannerImage  String?
+
+  @@map("bh_profile")
+}
+
+model Post {
+  id        Int       @id @default(autoincrement())
+  title     String
+  slug      String    @unique
+  content   String?
+  published Boolean   @default(false)
+  author    User      @relation(fields: [authorId], references: [id])
+  authorId  Int
+  comments  Comment[]
+  tags      Tag[]
+
+  category   Category? @relation(fields: [categoryId], references: [id])
+  categoryId Int?
+
+  createAt  DateTime    @default(now())
+  updateAt  DateTime    @updatedAt
+  PostMedia PostMedia[]
+
+  @@map("bh_post")
+}
+
+model Tag {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  posts Post[]
+
+  @@map("bh_tag")
+}
+
+model Category {
+  id    Int    @id @default(autoincrement())
+  name  String
+  slug  String @unique
+  posts Post[]
+
+  @@map("bh_category")
+}
+
+model Comment {
+  id       Int       @id @default(autoincrement())
+  content  String
+  post     Post      @relation(fields: [postId], references: [id])
+  postId   Int
+  author   User      @relation(fields: [authorId], references: [id])
+  authorId Int
+  parent   Comment?  @relation("CommentToComment", fields: [parentId], references: [id])
+  parentId Int?
+  comments Comment[] @relation("CommentToComment")
+
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  @@map("bh_comment")
+}
+
+enum PostMediaType {
+  IMAGE_BANNER
+  IMAGE_CONTENT
+  VIDEO
+}
+
+model PostMedia {
+  id       Int     @id @default(autoincrement())
+  url      String
+  mimeType String
+  post     Post    @relation(fields: [postId], references: [id])
+  postId   Int
+  type     String
+  caption  String?
+
+  @@map("bh_post_media")
+}
