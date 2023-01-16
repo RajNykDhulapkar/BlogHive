@@ -210,29 +210,49 @@ async function main() {
 
     console.log("Seeding likes ...");
 
-    console.log("Seeding follows ...");
+    console.log(clc.magenta("    Creating likes ..."));
+    for (let post of posts) {
+        await prisma.post.update({
+            where: {
+                id: post.id,
+            },
+            data: {
+                likes: {
+                    createMany: {
+                        data: shuffleArray(users, Math.floor(Math.random() * 30) + 1).map((user) => ({
+                            authorId: user.id,
+                        })),
+                    },
+                },
+            },
+        });
+    }
 
-    console.log("Seeding notifications ...");
+    console.log(clc.magenta("    Created likes..."));
 
-    console.log("Seeding messages ...");
+    // console.log("Seeding follows ...");
 
-    console.log("Seeding conversations ...");
+    // console.log("Seeding notifications ...");
 
-    console.log("Seeding conversation participants ...");
+    // console.log("Seeding messages ...");
 
-    console.log("Seeding conversation messages ...");
+    // console.log("Seeding conversations ...");
 
-    console.log("Seeding conversation message participants ...");
+    // console.log("Seeding conversation participants ...");
 
-    console.log("Seeding conversation message reactions ...");
+    // console.log("Seeding conversation messages ...");
 
-    console.log("Seeding conversation message replies ...");
+    // console.log("Seeding conversation message participants ...");
 
-    console.log("Seeding conversation message reply reactions ...");
+    // console.log("Seeding conversation message reactions ...");
 
-    console.log("Seeding conversation message reply participants ...");
+    // console.log("Seeding conversation message replies ...");
 
-    console.log("Seeding conversation message reply reactions ...");
+    // console.log("Seeding conversation message reply reactions ...");
+
+    // console.log("Seeding conversation message reply participants ...");
+
+    // console.log("Seeding conversation message reply reactions ...");
 
     console.log("end seeding ...");
 }

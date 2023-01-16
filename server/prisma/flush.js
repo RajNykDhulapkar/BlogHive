@@ -9,6 +9,7 @@
 async function flush(prisma) {
     try {
         // await prisma.$executeRaw('TRUNCATE TABLE "user" CASCADE;');
+        await prisma.like.deleteMany();
         await prisma.comment.deleteMany();
         await prisma.postMedia.deleteMany();
         await prisma.post.deleteMany();
