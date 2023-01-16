@@ -1,7 +1,7 @@
 const express = require('express');
 const { processRequestBody } = require("zod-express-middleware");
-const { registerUserHandler, verifyEmailHandler } = require('./auth.controller');
-const { registerUserSchema } = require('./auth.schema');
+const { registerUserHandler, verifyEmailHandler, loginHandler } = require('./auth.controller');
+const { registerUserSchema, loginUserSchema } = require('./auth.schema');
 
 const router = express.Router();
 
@@ -11,5 +11,8 @@ router.post('/register', processRequestBody(registerUserSchema.body), registerUs
 
 // verify email route
 router.get('/verify-email', verifyEmailHandler);
+
+// login route
+router.post('/login', processRequestBody(loginUserSchema.body), loginHandler);
 
 module.exports = router;

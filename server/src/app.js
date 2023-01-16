@@ -5,6 +5,7 @@ const responseTime = require("response-time");
 const cors = require('cors');
 const errorMiddleware = require('./middlewares/error.middleware');
 const { logRequest } = require('./middlewares/logRequest.middleware');
+const userDeserialiseMiddleware = require('./middlewares/userDeserialise.middleware');
 
 dotenv.config();
 
@@ -21,11 +22,17 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(responseTime());
 
+// deserialise user and attach to req.user
+app.use(userDeserialiseMiddleware)
+// log request
 app.use(logRequest);
 
 // register routes
 app.use('/api/auth', require('./core/auth/auth.route'));
+// user routes
+app.use('/api/user', require('./modules/user/user.route'));
 
+// health check
 app.get("/api/health-check", (req, res) => {
     return res.status(200).send({
         message: "Server is up and running",
