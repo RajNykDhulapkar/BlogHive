@@ -52,15 +52,17 @@ model Profile {
 }
 
 model Post {
-  id        Int       @id @default(autoincrement())
-  title     String
-  slug      String    @unique
-  content   String?
-  published Boolean   @default(false)
-  author    User      @relation(fields: [authorId], references: [id])
-  authorId  Int
-  comments  Comment[]
-  tags      Tag[]
+  id          Int       @id @default(autoincrement())
+  title       String
+  excerpt     String?
+  bannerImage String?
+  slug        String    @unique
+  markdown    String?
+  published   Boolean   @default(false)
+  author      User      @relation(fields: [authorId], references: [id])
+  authorId    Int
+  comments    Comment[]
+  tags        Tag[]
 
   category   Category? @relation(fields: [categoryId], references: [id])
   categoryId Int?
@@ -74,7 +76,8 @@ model Post {
 
 model Tag {
   id    Int    @id @default(autoincrement())
-  name  String @unique
+  name  String
+  slug  String @unique
   posts Post[]
 
   @@map("bh_tag")
@@ -96,6 +99,7 @@ model Comment {
   postId   Int
   author   User      @relation(fields: [authorId], references: [id])
   authorId Int
+  // on delete do nothing
   parent   Comment?  @relation("CommentToComment", fields: [parentId], references: [id])
   parentId Int?
   comments Comment[] @relation("CommentToComment")
