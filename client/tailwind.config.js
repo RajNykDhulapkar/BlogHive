@@ -3,10 +3,17 @@ module.exports = {
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx}',
     './src/components/**/*.{js,ts,jsx,tsx}',
+    './src/layouts/**/*.{js,ts,jsx,tsx}',
     './app/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        inconsolata: ['Inconsolata', 'monospace'],
+        lato: ['Lato', 'sans-serif'],
+        poppins: ['Poppins', 'sans-serif']
+      }
+    }
   },
   plugins: [],
 }
