@@ -6,6 +6,7 @@
         "lato",
         "mailgun",
         "middlewares",
+        "reduxjs",
         "SENDGRID",
         "tailwindcss"
     ]

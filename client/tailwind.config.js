@@ -12,8 +12,16 @@ module.exports = {
         inconsolata: ['Inconsolata', 'monospace'],
         lato: ['Lato', 'sans-serif'],
         poppins: ['Poppins', 'sans-serif']
-      }
+      },
+      colors: {
+        honeydew: {
+          primary: '#ffa31a',
+          secondary: '#ffa32d',
+        },
+        // } '#ffa31a',
+      },
     }
   },
   plugins: [],
+  darkMode: 'class'
 }
