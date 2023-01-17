@@ -31,6 +31,10 @@ app.use(logRequest);
 app.use('/api/auth', require('./core/auth/auth.route'));
 // user routes
 app.use('/api/user', require('./modules/user/user.route'));
+// post routes
+app.use('/api/post', require('./modules/post/post.route'));
+// comment routes
+app.use('/api/comment', require('./modules/comment/comment.route'));
 
 // health check
 app.get("/api/health-check", (req, res) => {

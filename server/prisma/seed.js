@@ -18,7 +18,7 @@ async function main() {
 
     console.log("Seeding users ...");
 
-    const password = await bcrypt.hash("password", 10);
+    const password = await bcrypt.hash("myPassword@123", 10);
 
     const { count: usersCount } = await prisma.user.createMany({
         data: [
