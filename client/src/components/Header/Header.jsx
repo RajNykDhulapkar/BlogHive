@@ -8,6 +8,9 @@ import SearchIcon from "../icons/search";
 import { selectUser } from "../../features/auth/auth.slice";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../../features/auth/auth.api";
+import { selectDarkMode, toggleDarkTheme } from "../../features/theme/theme.slice";
+import SunIcon from "../icons/sun";
+import MoonIcon from "../icons/moon";
 
 const navLinks = [
     {
@@ -77,6 +80,7 @@ const Header = () => {
     const dispatch = useDispatch();
 
     const user = useSelector(selectUser);
+    const darkMode = useSelector(selectDarkMode);
 
     useEffect(() => {
         // if user is null but cookie is set to a valid token
@@ -199,6 +203,33 @@ const Header = () => {
                 )}
                 {showProfile && (
                     <div className='absolute z-10 border bg-slate-50 left-[0.5rem] top-[4.2rem] w-[calc(100%-1rem)] rounded-md shadow-md p-4'>
+                        {user && (
+                            <div className='flex flex-row justify-between items-center w-full border-b-2 border-gray-600 pb-1 mb-1'>
+                                <div className='flex flex-row gap-2 items-center'>
+                                    <img
+                                        className='w-10 h-10 rounded-full border-2 border-[#ffa31a]'
+                                        src='/images/profile.png'
+                                        alt='profile'
+                                    />
+                                    <div className='flex flex-col'>
+                                        <h1 className='text-lg  font-bold'>{user.name}</h1>
+                                        <h1 className='text-sm  font-poppins '>{user.email}</h1>
+                                    </div>
+                                </div>
+                                <button
+                                    className='text-sm font-medium text-red-500 border-2 shadow-stone-500 flex flex-row justify-center items-center rounded-md p-1'
+                                    onClick={() => {
+                                        dispatch(toggleDarkTheme());
+                                    }}
+                                >
+                                    {darkMode ? (
+                                        <SunIcon className='w-6 h-6' fill='grey' />
+                                    ) : (
+                                        <MoonIcon className='w-6 h-6' fill='black' />
+                                    )}
+                                </button>
+                            </div>
+                        )}
                         <ul className='w-full m-0 p-0 flex flex-col gap-1'>
                             {user
                                 ? profileNavLinks.loggedIn.map((link) => (
