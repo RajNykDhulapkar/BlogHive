@@ -1,12 +1,13 @@
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 import ProfileIcon from "../icons/profile";
 import HamburgerIcon from "../icons/hamburger";
 import CancelIcon from "../icons/cancel";
 import { useRouter } from "next/router";
 import SearchIcon from "../icons/search";
 import { selectUser } from "../../features/auth/auth.slice";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getUser } from "../../features/auth/auth.api";
 
 const navLinks = [
     {
@@ -73,7 +74,18 @@ const Header = () => {
     const [showMenu, setShowMenu] = React.useState(false);
     const [showProfile, setShowProfile] = React.useState(false);
 
+    const dispatch = useDispatch();
+
     const user = useSelector(selectUser);
+
+    useEffect(() => {
+        // if user is null but cookie is set to a valid token
+        // then fetch user data and set to user in state
+        // else do nothing
+        if (!user) {
+            dispatch(getUser());
+        }
+    }, [user]);
 
     const [navIndex, setNavIndex] = React.useState(() => {
         const path = router.asPath;
@@ -121,12 +133,22 @@ const Header = () => {
                 </Link>
                 <div className='flex flex-row gap-1'>
                     {/* profile toggle */}
-                    <button onClick={() => setShowProfile((prev) => !prev)}>
+                    <button
+                        onClick={() => {
+                            setShowMenu(false);
+                            setShowProfile((prev) => !prev);
+                        }}
+                    >
                         <ProfileIcon className='w-10 h-10' />
                     </button>
 
                     {/* nav links toggle menu*/}
-                    <button onClick={() => setShowMenu((prev) => !prev)}>
+                    <button
+                        onClick={() => {
+                            setShowProfile(false);
+                            setShowMenu((prev) => !prev);
+                        }}
+                    >
                         {!showMenu ? (
                             <HamburgerIcon className='w-10 h-10' />
                         ) : (

@@ -26,7 +26,22 @@ export const registerUser = createAsyncThunk(
             return response.data;
         } catch (error) {
             // throw new Error(error.response.data.message);
-            console.log(error);
+            console.log(error.response.data.message);
+        }
+    }
+);
+
+export const getUser = createAsyncThunk(
+    "auth/getUser",
+    async () => {
+        try {
+            console.log("getUser called");
+            const response = await axiosInstance.get("/api/user/me", {
+                withCredentials: true
+            });
+            return response.data;
+        } catch (error) {
+            // throw new Error(error.response.data.message);
             console.log(error.response.data.message);
         }
     }
