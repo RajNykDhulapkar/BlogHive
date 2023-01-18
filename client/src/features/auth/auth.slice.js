@@ -71,4 +71,11 @@ export const selectAuthRegisterStatus = (state) => ({
     success: state.auth.registerSuccess,
 });
 
+export const selectAuthLoginStatus = (state) => ({
+    status: state.auth.status,
+    error: state.auth.error,
+    loading: state.auth.loading,
+    success: state.auth.success,
+});
+
 export default authSlice.reducer;

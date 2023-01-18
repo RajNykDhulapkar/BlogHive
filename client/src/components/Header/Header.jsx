@@ -135,7 +135,7 @@ const Header = () => {
                     </button>
                 </div>
                 {showMenu && (
-                    <div className='absolute left-[0.5rem] top-[4.2rem] w-[calc(100%-1rem)] '>
+                    <div className='absolute z-10 left-[0.5rem] top-[4.2rem] w-[calc(100%-1rem)] shadow-md overflow-hidden rounded-lg '>
                         <div className='absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none'>
                             <SearchIcon />
                         </div>
@@ -156,7 +156,7 @@ const Header = () => {
                 )}
 
                 {showMenu && (
-                    <div className='absolute border bg-slate-50 left-[0.5rem] top-[7.5rem] w-[calc(100%-1rem)] rounded-md shadow-md p-4'>
+                    <div className='absolute z-10 border bg-slate-50 left-[0.5rem] top-[7.5rem] w-[calc(100%-1rem)] rounded-md shadow-md p-4'>
                         <ul className='w-full m-0 p-0 flex flex-col gap-1'>
                             {navLinks.map((link) => (
                                 <li
@@ -176,7 +176,7 @@ const Header = () => {
                     </div>
                 )}
                 {showProfile && (
-                    <div className='absolute border bg-slate-50 left-[0.5rem] top-[4.2rem] w-[calc(100%-1rem)] rounded-md shadow-md p-4'>
+                    <div className='absolute z-10 border bg-slate-50 left-[0.5rem] top-[4.2rem] w-[calc(100%-1rem)] rounded-md shadow-md p-4'>
                         <ul className='w-full m-0 p-0 flex flex-col gap-1'>
                             {user
                                 ? profileNavLinks.loggedIn.map((link) => (

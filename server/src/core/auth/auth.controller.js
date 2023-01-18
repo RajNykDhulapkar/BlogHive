@@ -8,6 +8,7 @@ const logger = new Logger('AUTH CONTROLLER');
 const bcrypt = require('bcrypt');
 const HttpException = require('../../exceptions/http.exception');
 const { StatusCodes } = require('http-status-codes');
+const { exclude } = require('../../helpers/serializers');
 
 async function registerUserHandler(req, res, next) {
     try {
@@ -130,7 +131,7 @@ async function loginHandler(req, res, next) {
         res.cookie("refreshToken", refreshToken, refreshTokenCookieOptions);
 
         return res.status(200).json({
-            message: 'Login successful',
+            ...exclude(user, ['password'])
         });
     } catch (error) {
         console.log(error);

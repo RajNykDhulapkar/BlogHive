@@ -80,7 +80,6 @@ const Register = () => {
             setShowError(true);
         } else {
             const { name, email, password, confirmPassword } = formState;
-            console.log(name.value, email.value, password.value, confirmPassword.value);
             dispatchThunk(
                 registerUser({
                     name: name.value,
