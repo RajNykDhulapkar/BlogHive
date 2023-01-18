@@ -16,7 +16,7 @@ module.exports = {
       colors: {
         honeydew: {
           primary: '#ffa31a',
-          secondary: '#ffa32d',
+          secondary: '#fa8237   ',
         },
         // } '#ffa31a',
       },

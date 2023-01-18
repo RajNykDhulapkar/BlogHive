@@ -5,10 +5,15 @@ const Logger = require('../utils/logger');
 const logger = new Logger('USER DESERIALISE MIDDLEWARE');
 
 function parseCookieHeader(cookieHeader) {
-    return cookieHeader
-        .split(';')
-        .map(cookie => cookie.split('='))
-        .reduce((acc, [key, value]) => ({ ...acc, [key.trim()]: decodeURIComponent(value) }), {});
+    try {
+        return cookieHeader
+            .split(';')
+            .map(cookie => cookie.split('='))
+            .reduce((acc, [key, value]) => ({ ...acc, [key.trim()]: decodeURIComponent(value) }), {});
+    } catch (error) {
+        logger.error('Invalid cookie header, unable to parse');
+        return null
+    }
 }
 
 async function userDeserialiseMiddleware(req, res, next) {
