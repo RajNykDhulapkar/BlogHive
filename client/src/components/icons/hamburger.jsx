@@ -1,11 +1,14 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import { selectDarkMode } from "../../features/theme/theme.slice";
 
 const HamburgerIcon = ({ ...props }) => {
+    const darkMode = useSelector(selectDarkMode);
     return (
         <svg
             {...props}
             aria-hidden='true'
-            fill='black'
+            fill={darkMode ? "white" : "black"}
             viewBox='0 0 20 20'
             xmlns='http://www.w3.org/2000/svg'
         >

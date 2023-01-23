@@ -2,6 +2,7 @@ function range(size, startAt = 0) {
     return [...Array(size).keys()].map((i) => i + startAt);
 }
 
+// function to get a random element from a list
 function get_random(list) {
     return list[Math.floor(Math.random() * list.length)];
 }
@@ -23,6 +24,7 @@ function get_random_sub_list(list) {
     return shuffleArray(list, list.length).slice(0, length);
 }
 
+// function to get a random sublist of a given size
 function get_random_sub_list_with_size(list, size) {
     return shuffleArray(list, list.length).slice(0, size);
 }

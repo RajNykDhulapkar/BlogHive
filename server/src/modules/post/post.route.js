@@ -1,5 +1,6 @@
 const express = require('express');
 const placeHolderHandler = require('../../helpers/placeHolderHandler');
+const selectMiddleware = require('../../middlewares/select.middleware');
 const { getPostsHandler } = require('./post.controller');
 const router = express.Router();
 
@@ -8,7 +9,7 @@ const router = express.Router();
 // page and page_size passed as query param to get paginated posts
 // [params: order_by, user_id, page, page_size]
 // [permissions: PUBLIC]
-router.get("/", getPostsHandler);
+router.get("/", selectMiddleware, getPostsHandler);
 
 // get by tag
 router.get("/tag/:tag", placeHolderHandler("Get all posts paginated sorted by date created, like count, comment count"));

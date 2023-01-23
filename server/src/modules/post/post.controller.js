@@ -18,17 +18,31 @@ async function getPostsHandler(req, res, next) {
             throw new HttpException(400, "Invalid order_by query param");
         }
 
+        let select = req.select;
+        if (!select) select = [];
+        // default select fields
+        select.push([
+            'id',
+            'title',
+            'excerpt',
+            'bannerImage',
+            'slug',
+            'author',
+            'createAt',
+            'updateAt'
+        ])
+        select = [...new Set(select.flat())]
 
         let result = {};
 
         if (userId) {
             // get posts by user
             // getPostsByUserId return {count, posts} object assign it to posts
-            result = await getPostsByUserId(userId, page, pageSize, orderBy);
+            result = await getPostsByUserId(userId, page, pageSize, orderBy, select);
         } else {
             // get all posts
             // getPost return {count, posts} object assign it to posts
-            result = await getPosts(page, pageSize, orderBy);
+            result = await getPosts(page, pageSize, orderBy, select);
         }
 
         return res.status(200).send({

@@ -97,7 +97,7 @@ const Register = () => {
     };
 
     return (
-        <div className='flex justify-center'>
+        <div className='flex justify-center mt-[3rem] '>
             <form
                 onSubmit={(e) => formSubmitHandler(e)}
                 className='w-[calc(100%-1rem)] p-3 py-5 mt-10 rounded bg-gray-50 shadow-lg border flex flex-col gap-1'

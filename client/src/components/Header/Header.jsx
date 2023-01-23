@@ -5,7 +5,7 @@ import HamburgerIcon from "../icons/hamburger";
 import CancelIcon from "../icons/cancel";
 import { useRouter } from "next/router";
 import SearchIcon from "../icons/search";
-import { selectUser } from "../../features/auth/auth.slice";
+import authSlice, { selectUser } from "../../features/auth/auth.slice";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../../features/auth/auth.api";
 import { selectDarkMode, toggleDarkTheme } from "../../features/theme/theme.slice";
@@ -87,7 +87,12 @@ const Header = () => {
         // then fetch user data and set to user in state
         // else do nothing
         if (!user) {
-            dispatch(getUser());
+            try {
+                dispatch(getUser());
+            } catch (error) {
+                console.log("no user found logged in");
+                console.log(error.message);
+            }
         }
     }, [user]);
 
@@ -125,7 +130,7 @@ const Header = () => {
     };
 
     return (
-        <header className='font-inconsolata p-2 shadow-md'>
+        <header className='font-inconsolata p-2 bg-gray-100 shadow-md dark:shadow-md dark:shadow-white dark:bg-ph-black dark:text-white fixed z-10  top-0 w-full'>
             {/* container */}
             <div className='container flex flex-row justify-between'>
                 {/* logo with name */}
@@ -202,7 +207,7 @@ const Header = () => {
                     </div>
                 )}
                 {showProfile && (
-                    <div className='absolute z-10 border bg-slate-50 left-[0.5rem] top-[4.2rem] w-[calc(100%-1rem)] rounded-md shadow-md p-4'>
+                    <div className='absolute z-10 border bg-slate-50 right-[0.5rem] top-[4.2rem] w-[calc(90%-1rem)] rounded-md shadow-md p-4'>
                         {user && (
                             <div className='flex flex-row justify-between items-center w-full border-b-2 border-gray-600 pb-1 mb-1'>
                                 <div className='flex flex-row gap-2 items-center'>

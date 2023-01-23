@@ -19,6 +19,11 @@ module.exports = {
           secondary: '#fa8237   ',
         },
         // } '#ffa31a',
+        ph: {
+          grey: "#808080",
+          lightBlack: "#292929",
+          black: "#1b1b1b",
+        }
       },
     }
   },

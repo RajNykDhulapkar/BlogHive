@@ -47,8 +47,10 @@ async function main() {
         data: users.map((user) => ({
             userId: user.id,
             bio: faker.lorem.paragraph(),
-            profileImage: faker.image.avatar(),
-            bannerImage: faker.image.imageUrl(),
+            // profileImage: faker.image.avatar(),
+            profileImage: "https://source.unsplash.com/random/400x400?sig=" + Math.floor(Math.random() * 1000),
+            // bannerImage: faker.image.imageUrl(),
+            bannerImage: "https://source.unsplash.com/random/1920x1080?sig=" + Math.floor(Math.random() * 1000),
         })),
     });
     console.log(clc.yellow(`    Seeded profiles count: ${profilesCount} `));

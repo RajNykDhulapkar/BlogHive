@@ -1,6 +1,7 @@
 const prisma = require("../../core/database/prisma");
+const { exclude } = require("../../helpers/serializers");
 
-async function getPostsByUserId(userId, page, pageSize, orderBy) {
+async function getPostsByUserId(userId, page, pageSize, orderBy, select) {
     const [count, posts] = await prisma.$transaction([
         prisma.post.count({
             where: {
@@ -13,17 +14,28 @@ async function getPostsByUserId(userId, page, pageSize, orderBy) {
                 authorId: parseInt(userId),
                 published: true,
             },
+            select: {
+                ...selectList.reduce((acc, item) => {
+                    acc[item] = true;
+                    return acc;
+                }, {})
+            },
             skip: (page - 1) * pageSize,
             take: pageSize,
         })
     ])
     return {
         count,
-        posts
+        posts: posts.map((post) => {
+            return {
+                ...post,
+                author: exclude(post.author, ['password'])
+            }
+        })
     }
 }
 
-async function getPosts(page, pageSize, orderBy) {
+async function getPosts(page, pageSize, orderBy, selectList) {
     try {
         const [count, posts] = await prisma.$transaction([
             prisma.post.count({
@@ -35,13 +47,24 @@ async function getPosts(page, pageSize, orderBy) {
                 where: {
                     published: true,
                 },
+                select: {
+                    ...selectList.reduce((acc, item) => {
+                        acc[item] = true;
+                        return acc;
+                    }, {})
+                },
                 skip: (page - 1) * pageSize,
                 take: pageSize,
             })
         ])
         return {
             count,
-            posts
+            posts: posts.map((post) => {
+                return {
+                    ...post,
+                    author: exclude(post.author, ['password'])
+                }
+            })
         }
     } catch (error) {
         throw error

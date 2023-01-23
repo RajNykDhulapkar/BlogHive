@@ -10,6 +10,7 @@ import { loginUser } from "../../features/auth/auth.api";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAuthLoginStatus } from "../../features/auth/auth.slice";
 import { useRouter } from "next/router";
+import { wrapper } from "../../store";
 
 const initialState = {
     email: { value: "", touched: false, hasError: true, error: "" },
@@ -74,7 +75,7 @@ const Login = () => {
             }
         }
         if (!isFormValid) {
-            setShowError(true);
+            // setShowError(true);
         } else {
             const { email, password } = formState;
             // console.log(email.value, password.value);
@@ -88,12 +89,12 @@ const Login = () => {
 
         // Hide the error message after 5 seconds
         setTimeout(() => {
-            setShowError(false);
+            // setShowError(false);
         }, 5000);
     };
 
     return (
-        <div className='flex justify-center'>
+        <div className='flex justify-center mt-[3rem] '>
             <form
                 onSubmit={(e) => formSubmitHandler(e)}
                 className='w-[calc(100%-1rem)] p-3 py-5 mt-10 rounded bg-gray-50 shadow-lg border flex flex-col gap-1'
