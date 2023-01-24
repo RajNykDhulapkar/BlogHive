@@ -9,10 +9,10 @@ WORKDIR /usr/src/app/client
 # copy package.json and package-lock.json and install dependencies
 COPY package*.json ./
 RUN npm install
-RUN npm build
 
 # copy all files
 COPY . .
+RUN npm build
 
 # expose port 3000 to access the server
 EXPOSE 3000
