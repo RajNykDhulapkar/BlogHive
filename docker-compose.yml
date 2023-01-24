@@ -28,6 +28,7 @@ services:
         environment:
             POSTGRES_PASSWORD: root # set the password for the postgres user
             POSTGRES_USER: postgres # set the username for the postgres user
+            POSTGRES_DB: BlogHiveDB # set the name of the database
         ports:
             - "5432:5432"
         # name of the container
