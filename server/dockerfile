@@ -12,6 +12,9 @@ RUN npm install
 
 # copy all files
 COPY . .
+RUN npx prisma migrate dev
+RUN npx prisma generate
+RUN npx prisma db seed
 
 # expose port 8000 to access the server
 EXPOSE 8000
