@@ -27,11 +27,15 @@ const Home = () => {
     };
 
     useEffect(() => {
+        setPage(2);
+    }, []);
+
+    useEffect(() => {
         if (isSuccess) {
-            console.log(data);
-            setPosts((prev) => [...prev, ...data]);
+            setPosts((prev) => [...new Set([...prev, ...data])]);
+            // console.log(posts);
         }
-    }, [isLoading, isSuccess, page]);
+    }, [isLoading, isSuccess, page, data]);
 
     return (
         <div className='w-[calc(100%-2rem)] m-auto mt-[3.5rem] p-1'>
@@ -116,13 +120,41 @@ const Home = () => {
                             ))}
                         </div>
                         {/* pagination */}
-                        <div className='flex justify-center items-center mt-4'>
+                        <div className='flex justify-center items-center my-4'>
                             <button
                                 onClick={handleLodeMore}
                                 className='px-4 py-2 bg-[#ffa31a] text-white rounded-md'
                             >
                                 Load More
                             </button>
+                        </div>
+                        {/* footer  */}
+                        <div className='flex justify-center items-center mt-4'>
+                            <p className='text-sm text-gray-500'>© 2021 - All Rights Reserved</p>
+                        </div>
+                        {/* attribution  */}
+                        <div className='flex justify-center items-center mt-4'>
+                            <p className='text-sm text-gray-500'>
+                                Made with ❤️ by
+                                <a
+                                    className='text-blue-500'
+                                    href='https://github.com/RajNykDhulapkar'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    @rajnykdhulapkar
+                                </a>
+                                {"  "}
+                                using{" "}
+                                <a
+                                    className='text-blue-500'
+                                    href='https://nextjs.org/'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    Next.js
+                                </a>
+                            </p>
                         </div>
                     </>
                 )
