@@ -23,20 +23,17 @@ services:
 
     # create a container for the database
     db:
-        image: postgres:14.3 # use the official postgres image
-        ports:
-            - "5432:5432"
-        container_name: bloghive-db
+        image: postgres # use the official postgres image
         restart: always
         environment:
             POSTGRES_PASSWORD: root # set the password for the postgres user
             POSTGRES_USER: postgres # set the username for the postgres user
-            POSTGRES_DB: BlogHiveDB # set the name of the database
-
-        volumes:
-            - db:/var/lib/postgresql/data
-
-        command: postgres -p 5432 -d
-
-volumes:
-    db:
+        ports:
+            - "5432:5432"
+        # name of the container
+        container_name: bloghive-db
+        healthcheck:
+            test: ["CMD", "pg_isready", "-U", "postgres"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
