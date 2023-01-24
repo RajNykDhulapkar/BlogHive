@@ -27,7 +27,7 @@ services:
         ports:
             - "5432:5432"
         container_name: bloghive-db
-        command: postgres -p 5432 -c log_statement=all # log all SQL statements
+        command: postgres -p 5432 # log all SQL statements
         restart: always
         environment:
             POSTGRES_PASSWORD: root # set the password for the postgres user
