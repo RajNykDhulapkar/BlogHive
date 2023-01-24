@@ -1,14 +1,15 @@
 const BadRequestException = require('../../exceptions/badRequest.exception');
-const { getUserByEmail } = require('../../modules/user/user.service');
+const { getUserByEmail, getUserById } = require('../../modules/user/user.service');
 const Logger = require('../../utils/logger');
 const { sendVerifyEmail } = require('../email/email.service');
-const { createUser, validateUserEmail, createSession, createAccessToken, createRefreshToken } = require('./auth.service');
-const { generateVerificationUrl, decodeConfirmationToken } = require('./auth.util');
+const { createUser, validateUserEmail, createSession, createAccessToken, createRefreshToken, getSessionById } = require('./auth.service');
+const { generateVerificationUrl, decodeConfirmationToken, decodeAndVerifyToken } = require('./auth.util');
 const logger = new Logger('AUTH CONTROLLER');
 const bcrypt = require('bcrypt');
 const HttpException = require('../../exceptions/http.exception');
 const { StatusCodes } = require('http-status-codes');
 const { exclude } = require('../../helpers/serializers');
+const { parseCookieHeader } = require('../../middlewares/userDeserialise.middleware');
 
 async function registerUserHandler(req, res, next) {
     try {
@@ -140,5 +141,57 @@ async function loginHandler(req, res, next) {
     }
 }
 
+const refreshHandler = async (req, res, next) => {
+    try {
+        const refreshToken = req.cookies?.refreshToken ||
+            req.headers['x-refresh'] ||
+            parseCookieHeader(req.headers.cookie)?.refreshToken
 
-module.exports = { registerUserHandler, verifyEmailHandler, loginHandler };
+        if (!refreshToken) {
+            throw new BadRequestException('No refresh token provided');
+        }
+
+        const { session } = await decodeAndVerifyToken(refreshToken);
+
+        // get session by id
+        const userSession = await getSessionById(session);
+
+        if (!userSession || !userSession.valid || userSession.expiresAt < new Date()) {
+            throw new BadRequestException('Invalid refresh token');
+        }
+
+        // find user with email
+        const user = await getUserById(userSession.userId);
+        // if user not found, throw error
+        if (!user) {
+            throw new BadRequestException('Invalid credentials');
+        }
+
+        // check if user is verified
+        if (!user.is_active) {
+            throw new BadRequestException('Please verify your email');
+        }
+        // create access token
+        const accessTokenPayload = { user: user.id, session: userSession.id }
+        const accessToken = createAccessToken(accessTokenPayload);
+
+        // send token as cookie
+        res.cookie("accessToken", accessToken, accessTokenCookieOptions);
+        console.log("refresh token sent");
+        return res.status(200).json({
+            ...exclude(user, ['password'])
+        });
+
+    } catch (error) {
+        console.log(error);
+        logger.error(error.message);
+        next(error);
+    }
+}
+
+module.exports = {
+    registerUserHandler,
+    verifyEmailHandler,
+    loginHandler,
+    refreshHandler
+};

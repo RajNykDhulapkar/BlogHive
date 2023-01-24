@@ -128,34 +128,6 @@ const Home = () => {
                                 Load More
                             </button>
                         </div>
-                        {/* footer  */}
-                        <div className='flex justify-center items-center mt-4'>
-                            <p className='text-sm text-gray-500'>© 2021 - All Rights Reserved</p>
-                        </div>
-                        {/* attribution  */}
-                        <div className='flex justify-center items-center mt-4'>
-                            <p className='text-sm text-gray-500'>
-                                Made with ❤️ by
-                                <a
-                                    className='text-blue-500'
-                                    href='https://github.com/RajNykDhulapkar'
-                                    target='_blank'
-                                    rel='noreferrer'
-                                >
-                                    @rajnykdhulapkar
-                                </a>
-                                {"  "}
-                                using{" "}
-                                <a
-                                    className='text-blue-500'
-                                    href='https://nextjs.org/'
-                                    target='_blank'
-                                    rel='noreferrer'
-                                >
-                                    Next.js
-                                </a>
-                            </p>
-                        </div>
                     </>
                 )
             ) : null}

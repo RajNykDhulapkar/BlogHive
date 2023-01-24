@@ -51,6 +51,15 @@ async function createSession(userId, userAgent) {
     return session;
 }
 
+async function getSessionById(sessionId) {
+    const session = await prisma.session.findUnique({
+        where: {
+            id: parseInt(sessionId)
+        }
+    });
+    return session;
+}
+
 function createAccessToken(payload) {
     return signJWT(
         payload,
@@ -71,6 +80,7 @@ module.exports = {
     createUser,
     validateUserEmail,
     createSession,
+    getSessionById,
     createAccessToken,
     createRefreshToken
 };

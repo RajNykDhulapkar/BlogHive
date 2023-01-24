@@ -16,7 +16,7 @@ axiosInstance.interceptors.response.use(
             originalRequest._retry = true;
             const refreshToken = localStorage.getItem("refreshToken");
             try {
-                const response = await axiosInstance.post("/auth/refresh", {
+                const response = await axiosInstance.get("/api/auth/refresh", {
                     refreshToken,
                 });
                 if (response.status === 200) {

@@ -40,10 +40,23 @@ function verifyJWT(token, secret) {
     });
 }
 
+async function decodeAndVerifyToken(token) {
+    return new Promise((resolve, reject) => {
+        jwt.verify(token, process.env.JWT_REFRESH_TOKEN_SECRET, (err, payload) => {
+            if (err) {
+                return reject(err);
+            }
+            resolve(payload);
+        });
+    });
+}
+
+
 
 module.exports = {
     generateVerificationUrl,
     decodeConfirmationToken,
     signJWT,
-    verifyJWT
+    verifyJWT,
+    decodeAndVerifyToken
 };

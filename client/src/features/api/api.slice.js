@@ -24,6 +24,7 @@ export const apiSlice = createApi({
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                withCredentials: true,
             }),
 
             transformResponse: (response) => {

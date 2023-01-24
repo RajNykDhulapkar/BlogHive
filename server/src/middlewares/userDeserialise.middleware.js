@@ -48,5 +48,8 @@ async function userDeserialiseMiddleware(req, res, next) {
     }
 }
 
-module.exports = userDeserialiseMiddleware;
+module.exports = {
+    userDeserialiseMiddleware,
+    parseCookieHeader
+};
 

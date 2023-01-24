@@ -5,7 +5,7 @@ const responseTime = require("response-time");
 const cors = require('cors');
 const errorMiddleware = require('./middlewares/error.middleware');
 const { logRequest } = require('./middlewares/logRequest.middleware');
-const userDeserialiseMiddleware = require('./middlewares/userDeserialise.middleware');
+const { userDeserialiseMiddleware } = require('./middlewares/userDeserialise.middleware');
 
 dotenv.config();
 
