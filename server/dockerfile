@@ -1,0 +1,20 @@
+# base image
+FROM node:16.14.2-alpine3.14
+
+# make folder to put files and set it as working directory
+RUN mkdir -p /usr/src/app
+RUN mkdir -p /usr/src/app/server
+WORKDIR /usr/src/app/server
+
+# copy package.json and package-lock.json and install dependencies
+COPY package*.json ./
+RUN npm install
+
+# copy all files
+COPY . .
+
+# expose port 8000 to access the server
+EXPOSE 8000
+
+# command to run the server
+CMD [ "npm", "start" ]

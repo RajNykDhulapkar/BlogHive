@@ -1,0 +1,22 @@
+# base image
+FROM node:16.14.2-alpine3.14
+
+# make folder to put files and set it as working directory
+RUN mkdir -p /usr/src/app
+RUN mkdir -p /usr/src/app/client
+WORKDIR /usr/src/app/client
+
+# copy package.json and package-lock.json and install dependencies
+COPY package*.json ./
+RUN npm install
+RUN npm build
+
+# copy all files
+COPY . .
+
+# expose port 3000 to access the server
+EXPOSE 3000
+
+# command to run the server
+RUN npm config set registry http://registry.npmjs.org/
+CMD [ "npm", "start" ]

@@ -1,0 +1,34 @@
+version: "3.7"
+
+services:
+    # create a container for the client
+    client: # name of the service/container
+        build: ./client # path to the Dockerfile
+        ports:
+            - "3000:3000" # port mapping
+        container_name: bloghive-client # name of the container
+        restart: always # restart the container if it crashes
+        links:
+            - server # link to the server container
+
+    # create a container for the server
+    server:
+        build: ./server
+        ports:
+            - "8000:8000"
+        container_name: bloghive-server
+        restart: always
+        links:
+            - db # link to the db container
+
+    # create a container for the database
+    db:
+        image: postgres:14.3 # use the official postgres image
+        ports:
+            - "5432:5432"
+        container_name: bloghive-db
+        restart: always
+        environment:
+            POSTGRES_PASSWORD: root # set the password for the postgres user
+            POSTGRES_USER: postgres # set the username for the postgres user
+            POSTGRES_DB: BlogHiveDB # set the name of the database
