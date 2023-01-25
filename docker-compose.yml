@@ -63,6 +63,7 @@ services:
         restart: always
         depends_on:
             - server
+            - client
         volumes:
             - ./nginx/conf/:/etc/nginx/conf.d/:ro
             - ./certbot/www:/var/www/certbot/:ro
