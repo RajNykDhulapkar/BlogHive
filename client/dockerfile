@@ -12,11 +12,10 @@ RUN npm install
 
 # copy all files
 COPY . .
-RUN npm run build
+# RUN npm run build
 
 # expose port 3000 to access the server
 EXPOSE 3000
 
 # command to run the server
-RUN npm config set registry http://registry.npmjs.org/
-CMD [ "npm", "start" ]
+# CMD [ "npm", "run", "start" ]

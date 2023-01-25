@@ -21,16 +21,6 @@ services:
         volumes:
             - ./db:/var/lib/postgresql/data # mount the db volume to the container
 
-    # # create a container for the client
-    # client: # name of the service/container
-    #     build: ./client # path to the Dockerfile
-    #     ports:
-    #         - "3000:3000" # port mapping
-    #     container_name: bloghive-client # name of the container
-    #     restart: always # restart the container if it crashes
-    #     links:
-    #         - server # link to the server container
-
     # create a container for the server
     server:
         build: ./server
@@ -49,6 +39,19 @@ services:
             - db
         links:
             - db # link to the db container
+
+    # create a container for the client
+    client: # name of the service/container
+        build: ./client # path to the Dockerfile
+        ports:
+            - "3000:3000" # port mapping
+        container_name: bloghive-client # name of the container
+        restart: always # restart the container if it crashes
+        links:
+            - server # link to the server container
+        command: >
+            sh -c "npm run build && 
+                   npm run start"
 
     nginx:
         build:
