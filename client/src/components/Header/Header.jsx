@@ -38,6 +38,11 @@ const navLinks = [
         title: "Categories",
         path: "/categories",
     },
+    {
+        index: 5,
+        title: "Community",
+        path: "/community",
+    },
 ];
 
 const profileNavLinks = {
