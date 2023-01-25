@@ -56,9 +56,13 @@ services:
         container_name: bloghive-nginx
         ports:
             - "80:80"
+            - "443:443"
         restart: always
         depends_on:
             - server
+        volumes:
+            - ./nginx/conf/:/etc/nginx/conf.d/:ro
+            - ./cerbot/www:/var/www/cerbot/:ro
 
 volumes:
     db:
