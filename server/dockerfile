@@ -17,4 +17,7 @@ COPY . .
 EXPOSE 8000
 
 # command to run the server
-CMD [ "npm", "start" ]
+# RUN npx prisma generate
+# RUN npx prisma migrate dev
+# RUN npx prisma db seed
+# CMD [ "npm", "run", "start" ]

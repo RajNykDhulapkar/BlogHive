@@ -1,26 +1,8 @@
 version: "3.7"
 
+name: bloghive
+
 services:
-    # # create a container for the client
-    # client: # name of the service/container
-    #     build: ./client # path to the Dockerfile
-    #     ports:
-    #         - "3000:3000" # port mapping
-    #     container_name: bloghive-client # name of the container
-    #     restart: always # restart the container if it crashes
-    #     links:
-    #         - server # link to the server container
-
-    # # create a container for the server
-    # server:
-    #     build: ./server
-    #     ports:
-    #         - "8000:8000"
-    #     container_name: bloghive-server
-    #     restart: always
-    #     links:
-    #         - db # link to the db container
-
     # create a container for the database
     db:
         image: postgres # use the official postgres image
@@ -32,9 +14,53 @@ services:
         ports:
             - "5432:5432"
         # name of the container
-        container_name: bloghive-db
         healthcheck:
             test: ["CMD", "pg_isready", "-U", "postgres"]
             interval: 10s
             timeout: 5s
             retries: 5
+
+        volumes:
+            - ./db:/var/lib/postgresql/data # mount the db volume to the container
+
+    # # create a container for the client
+    # client: # name of the service/container
+    #     build: ./client # path to the Dockerfile
+    #     ports:
+    #         - "3000:3000" # port mapping
+    #     container_name: bloghive-client # name of the container
+    #     restart: always # restart the container if it crashes
+    #     links:
+    #         - server # link to the server container
+
+    # create a container for the server
+    server:
+        build: ./server
+        ports:
+            - "8000:8000"
+        container_name: bloghive-server
+        environment:
+            DATABASE_URL: postgresql://postgres:root@db:5432/BlogHiveDB?schema=public
+        command: >
+            sh -c "npx prisma migrate deploy && 
+                   npx prisma generate && 
+                   npx prisma db seed &&
+                   npm run start"
+        restart: always
+        depends_on:
+            - db
+        links:
+            - db # link to the db container
+
+    nginx:
+        build:
+            context: ./nginx
+        container_name: bloghive-nginx
+        ports:
+            - "80:80"
+        restart: always
+        depends_on:
+            - server
+
+volumes:
+    db:
