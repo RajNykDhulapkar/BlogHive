@@ -1,3 +1,6 @@
 db
 /client/.env
 certbot
+
+# q: git clear cache
+# git rm -r --cached .
