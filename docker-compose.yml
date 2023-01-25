@@ -62,7 +62,12 @@ services:
             - server
         volumes:
             - ./nginx/conf/:/etc/nginx/conf.d/:ro
-            - ./cerbot/www:/var/www/cerbot/:ro
+            - ./certbot/www:/var/www/cerbot/:ro
+
+    certbot:
+        image: certbot/certbot:latest
+        volumes:
+            - ./certbot/www/:/var/www/certbot/:rw
 
 volumes:
     db:
