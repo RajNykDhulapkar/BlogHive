@@ -137,7 +137,7 @@ const Header = () => {
     return (
         <header className='font-inconsolata p-2 bg-gray-100 shadow-md dark:shadow-md dark:shadow-white dark:bg-ph-black dark:text-white fixed z-10  top-0 w-full'>
             {/* container */}
-            <div className='container flex flex-row justify-between'>
+            <div className='container sm:w-10/12 sm:mx-auto md:w-9/12 flex flex-row justify-between'>
                 {/* logo with name */}
                 <Link className='' href='/'>
                     <div className='flex flex-row justify-start items-center gap-2'>
@@ -145,7 +145,51 @@ const Header = () => {
                         <h1 className='font-extrabold text-3xl'>Blog Hive</h1>
                     </div>
                 </Link>
-                <div className='flex flex-row gap-1'>
+
+                {/* larger than md screen  */}
+
+                <div className='hidden md:flex flex-row gap-4 items-center'>
+                    {/* nav links */}
+                    <div className='flex flex-row gap-4 items-center'>
+                        {navLinks.map((link, index) => (
+                            <Link href={link.path}>
+                                <span
+                                    key={index}
+                                    className={`${
+                                        navIndex === link.index
+                                            ? "text-ph-blue font-bold"
+                                            : "text-gray-500"
+                                    } text-lg  cursor-pointer hover:text-ph-blue transition-all duration-300 ease-in-out`}
+                                >
+                                    {link.title}
+                                </span>
+                            </Link>
+                        ))}
+                    </div>
+                </div>
+
+                <div className='hidden md:flex flex-row gap-2 items-center justify-center'>
+                    <button
+                        onClick={() => {
+                            setShowMenu(false);
+                            setShowProfile((prev) => !prev);
+                        }}
+                    >
+                        <SearchIcon className='w-9 h-9' />
+                    </button>
+                    <button
+                        onClick={() => {
+                            setShowMenu(false);
+                            setShowProfile((prev) => !prev);
+                        }}
+                    >
+                        <ProfileIcon className='w-10 h-10' />
+                    </button>
+                </div>
+
+                {/* end larger than md screen  */}
+
+                <div className='flex flex-row gap-1 md:hidden'>
                     {/* profile toggle */}
                     <button
                         onClick={() => {
@@ -173,7 +217,7 @@ const Header = () => {
                 {showMenu && (
                     <div className='absolute z-10 left-[0.5rem] top-[4.2rem] w-[calc(100%-1rem)] shadow-md overflow-hidden rounded-lg '>
                         <div className='absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none'>
-                            <SearchIcon />
+                            <SearchIcon className='w-5 h-5 text-gray-500' />
                         </div>
                         <input
                             type='text'
@@ -212,7 +256,7 @@ const Header = () => {
                     </div>
                 )}
                 {showProfile && (
-                    <div className='absolute z-10 border bg-slate-50 right-[0.5rem] top-[4.2rem] w-[calc(90%-1rem)] rounded-md shadow-md p-4'>
+                    <div className='absolute z-10 border bg-slate-50 right-[0.5rem] top-[4.2rem] w-[calc(90%-1rem)] md:w-[30%] md:right-[calc(100%*1.5/12)] rounded-md shadow-md p-4'>
                         {user && (
                             <div className='flex flex-row justify-between items-center w-full border-b-2 border-gray-600 pb-1 mb-1'>
                                 <div className='flex flex-row gap-2 items-center'>

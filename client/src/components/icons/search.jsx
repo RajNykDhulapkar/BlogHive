@@ -4,7 +4,7 @@ const SearchIcon = ({ ...props }) => {
     return (
         <svg
             {...props}
-            className='w-5 h-5 text-gray-500'
+            // className=' text-gray-500'
             aria-hidden='true'
             fill='currentColor'
             viewBox='0 0 20 20'
