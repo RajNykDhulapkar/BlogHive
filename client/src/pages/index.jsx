@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import BlogLayout from "../layouts/BlogLayout";
+import { getCookies, getCookie, setCookies, removeCookies } from "cookies-next";
 
 import {
     apiSlice,
@@ -19,7 +20,7 @@ import useWindowSize from "../hooks/useWindowSize";
 
 const Home = () => {
     const [page, setPage] = useState(1);
-    const { data, isLoading, isSuccess, isError, error } = useGetPostsQuery(page, 3);
+    const { data, isLoading, isSuccess, isError, error } = useGetPostsQuery(page);
     const [posts, setPosts] = useState([]);
 
     // const size = useWindowSize();
@@ -197,7 +198,9 @@ Home.getLayout = function getLayout(page) {
     return <BlogLayout>{page}</BlogLayout>;
 };
 
-Home.getInitialProps = wrapper.getInitialPageProps((store) => async ({ req }) => {
+Home.getInitialProps = wrapper.getInitialPageProps((store) => async ({ req, res }) => {
+    // const cookies = getCookies({ req, res });
+    // console.log("accessToken", cookies?.accessToken);
     await store.dispatch(apiSlice.endpoints.getPosts.initiate());
 });
 

@@ -152,9 +152,8 @@ const Header = () => {
                     {/* nav links */}
                     <div className='flex flex-row gap-4 items-center'>
                         {navLinks.map((link, index) => (
-                            <Link href={link.path}>
+                            <Link key={index} href={link.path}>
                                 <span
-                                    key={index}
                                     className={`${
                                         navIndex === link.index
                                             ? "text-ph-blue font-bold"

@@ -72,7 +72,22 @@ async function getPosts(page, pageSize, orderBy, selectList) {
 }
 // TODO simplify this code block
 
+async function getPostBySlug(slug) {
+    console.log("slug", slug);
+    try {
+        const post = await prisma.post.findUnique({
+            where: {
+                slug: String(slug),
+            },
+        })
+    } catch (error) {
+        throw error
+    }
+}
+
+
 module.exports = {
     getPostsByUserId,
     getPosts,
+    getPostBySlug
 }

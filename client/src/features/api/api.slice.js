@@ -1,10 +1,14 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { getCookie } from 'cookies-next'
 import { HYDRATE } from 'next-redux-wrapper'
 
 
 export const apiSlice = createApi({
     reducerPath: 'api',
-    baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_URL }),
+    baseQuery: fetchBaseQuery({
+        baseUrl: process.env.NEXT_PUBLIC_API_URL,
+        credentials: 'include'
+    }),
     extractRehydrationInfo(action, { reducerPath }) {
         if (action.type === HYDRATE) {
             return action.payload[reducerPath]
@@ -16,13 +20,14 @@ export const apiSlice = createApi({
             query: (page = 1, page_size = 10) => ({
                 url: '/api/post',
                 params: {
-                    page: page,
-                    page_size: page_size,
+                    page,
+                    page_size,
                     select: ['id', 'title', 'excerpt', 'bannerImage', 'slug', 'author', 'createAt', 'updateAt']
                 },
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
+                    // "Authorization": "Bearer " + getCookie({ req: props.req, res: props.res })?.accessToken
                 },
                 withCredentials: true,
             }),
@@ -46,6 +51,17 @@ export const apiSlice = createApi({
             //     return response.data.results
             // }
         }),
+        getPost: builder.query({
+            query: (slug) => ({
+                url: `/api/post/${slug}`,
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // "Authorization": "Bearer " + getCookie({ req: props.req, res: props.res })?.accessToken
+                },
+                withCredentials: true,
+            }),
+        })
     })
 })
 

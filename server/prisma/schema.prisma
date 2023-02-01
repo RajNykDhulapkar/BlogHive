@@ -73,6 +73,8 @@ model Post {
   PostMedia PostMedia[]
   likes     Like[]
 
+  @@index([slug], name: "bh_post_slug")
+  @@index([categoryId], name: "bh_post_category_id")
   @@map("bh_post")
 }
 

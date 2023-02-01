@@ -1,7 +1,7 @@
 const express = require('express');
 const placeHolderHandler = require('../../helpers/placeHolderHandler');
 const selectMiddleware = require('../../middlewares/select.middleware');
-const { getPostsHandler } = require('./post.controller');
+const { getPostsHandler, getPostBySlugHandler } = require('./post.controller');
 const router = express.Router();
 
 // route to get all posts paginated sorted by date created, like count, comment count 
@@ -27,7 +27,7 @@ router.get("/feed", placeHolderHandler("Get post according to users custom feed"
 router.post("/", placeHolderHandler("Create a new post by the current logged in user"));
 
 // route to get a post by slug
-router.get("/:slug", placeHolderHandler("Get a post by slug"));
+router.get("/:slug", getPostBySlugHandler);
 
 // route to like a post by the current logged in user
 router.post("/:slug/like", placeHolderHandler("Like a post by the current logged in user"));

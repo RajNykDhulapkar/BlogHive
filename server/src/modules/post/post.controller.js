@@ -1,7 +1,7 @@
 const { count } = require("console");
 const HttpException = require("../../exceptions/http.exception");
 const Logger = require("../../utils/logger");
-const { getPostsByUserId, getPosts } = require("./post.service");
+const { getPostsByUserId, getPosts, getPostBySlug } = require("./post.service");
 const logger = new Logger("POST CONTROLLER");
 
 async function getPostsHandler(req, res, next) {
@@ -60,6 +60,28 @@ async function getPostsHandler(req, res, next) {
     }
 }
 
+async function getPostBySlugHandler(req, res, next) {
+    try {
+        const slug = req.params.slug;
+        if (!slug) {
+            throw new HttpException("Invalid slug", 400);
+        }
+        const post = await getPostBySlug(slug);
+        if (!post) {
+            throw new HttpException("Post not found", 404);
+        }
+        return res.status(200).send(post);
+    } catch (error) {
+
+        logger.error(error.message);
+        if (error instanceof HttpException) {
+            return next(error);
+        }
+        next(new HttpException("Internal Server Error", 500));
+    }
+}
+
 module.exports = {
     getPostsHandler,
+    getPostBySlugHandler
 };
