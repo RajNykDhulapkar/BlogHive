@@ -37,6 +37,8 @@ app.use('/api/post', require('./modules/post/post.route'));
 app.use('/api/comment', require('./modules/comment/comment.route'));
 // category routes
 app.use('/api/category', require('./modules/category/category.route'));
+// tag routes
+app.use('/api/tag', require('./modules/tag/tag.route'));
 
 // health check
 app.get("/api/health-check", (req, res) => {

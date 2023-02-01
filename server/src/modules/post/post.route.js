@@ -1,7 +1,8 @@
 const express = require('express');
 const placeHolderHandler = require('../../helpers/placeHolderHandler');
+const requireUserMiddleware = require('../../middlewares/requireUser.middleware');
 const selectMiddleware = require('../../middlewares/select.middleware');
-const { getPostsHandler, getPostBySlugHandler } = require('./post.controller');
+const { getPostsHandler, getPostBySlugHandler, createPostHandler } = require('./post.controller');
 const router = express.Router();
 
 // route to get all posts paginated sorted by date created, like count, comment count 
@@ -24,7 +25,7 @@ router.get("/search/:search", placeHolderHandler("Get all posts paginated sorted
 router.get("/feed", placeHolderHandler("Get post according to users custom feed"));
 
 // router to create  a new post by the current logged in user
-router.post("/", placeHolderHandler("Create a new post by the current logged in user"));
+router.post("/", requireUserMiddleware, createPostHandler);
 
 // route to get a post by slug
 router.get("/:slug", getPostBySlugHandler);

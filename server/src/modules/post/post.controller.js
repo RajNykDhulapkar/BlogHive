@@ -1,7 +1,7 @@
 const { count } = require("console");
 const HttpException = require("../../exceptions/http.exception");
 const Logger = require("../../utils/logger");
-const { getPostsByUserId, getPosts, getPostBySlug } = require("./post.service");
+const { getPostsByUserId, getPosts, getPostBySlug, createPost } = require("./post.service");
 const logger = new Logger("POST CONTROLLER");
 
 async function getPostsHandler(req, res, next) {
@@ -81,7 +81,23 @@ async function getPostBySlugHandler(req, res, next) {
     }
 }
 
+async function createPostHandler(req, res, next) {
+    try {
+        const body = req.body;
+        const userId = req.user.id;
+        const post = await createPost(body, userId);
+        return res.status(200).send(post);
+    } catch (error) {
+        logger.error(error.message);
+        if (error instanceof HttpException) {
+            return next(error);
+        }
+        next(new HttpException("Internal Server Error", 500));
+    }
+}
+
 module.exports = {
     getPostsHandler,
-    getPostBySlugHandler
+    getPostBySlugHandler,
+    createPostHandler
 };
