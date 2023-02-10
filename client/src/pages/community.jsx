@@ -103,7 +103,7 @@ const Community = () => {
                     </div>
                 </div>
             </div>
-            <div className='w-[calc(100%-2rem)] m-auto mt-[1rem] p-1'>
+            <div className='w-[calc(100%-2rem)] sm:w-10/12 md:w-9/12  m-auto mt-[3.5rem] p-1'>
                 {/* cards  */}
                 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
                     {cards.map((card, index) => (
